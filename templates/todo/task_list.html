@@ -1,0 +1,64 @@
+{% extends 'todo/base.html' %}
+{% block title %}Task List — Todo{% endblock %}
+{% block content %}
+  <div class="header">
+    <h2>🗂️ Task List</h2>
+    <a class="btn btn-accent" href="{% url 'todo:task-add' %}">➕ Add task</a>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Task</th>
+        <th>Created</th>
+        <th>Deadline</th>
+        <th>Status</th>
+        <th>Tags</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for task in tasks %}
+        <tr>
+          <td>{{ task.content }}</td>
+          <td>{{ task.created_at|date:"Y-m-d H:i" }}</td>
+          <td>
+            {% if task.deadline %}
+              {{ task.deadline|date:"Y-m-d H:i" }}
+            {% else %}
+              <span class="muted">none</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if task.is_done %}
+              <span class="status-done">✅ Done</span>
+            {% else %}
+              <span class="status-open">🕒 In progress</span>
+            {% endif %}
+          </td>
+          <td>
+            {% for tag in task.tags.all %}
+              <span class="tag">#{{ tag.name }}</span>
+            {% empty %}
+              <span class="muted">no tags</span>
+            {% endfor %}
+          </td>
+          <td>
+            <a class="btn" href="{% url 'todo:task-update' task.pk %}">✏️ Edit</a>
+            <a class="btn btn-danger" href="{% url 'todo:task-delete' task.pk %}">🗑️ Delete</a>
+            <form class="inline" method="post" action="{% url 'todo:task-toggle' task.pk %}">
+              {% csrf_token %}
+              {% if task.is_done %}
+                <button class="btn" type="submit">↩️ Undo</button>
+              {% else %}
+                <button class="btn btn-warn" type="submit">✅ Complete</button>
+              {% endif %}
+            </form>
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="6" class="muted">No tasks yet. Add your first one!</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

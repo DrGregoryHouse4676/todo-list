@@ -1,0 +1,15 @@
+{% extends 'todo/base.html' %}
+{% block title %}Task — form{% endblock %}
+{% block content %}
+  <div class="header">
+    <h2>{% if object %}✏️ Edit task{% else %}➕ Create task{% endif %}</h2>
+  </div>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="row">
+      <button class="btn btn-accent" type="submit">💾 Save</button>
+      <a class="btn" href="{% url 'todo:task-list' %}">✖️ Cancel</a>
+    </div>
+  </form>
+{% endblock %}
