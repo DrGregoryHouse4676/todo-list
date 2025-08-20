@@ -1,0 +1,30 @@
+{% extends 'todo/base.html' %}
+{% block title %}Tags — Todo{% endblock %}
+{% block content %}
+  <div class="header">
+    <h2>🏷️ Tags</h2>
+    <a class="btn btn-accent" href="{% url 'todo:tag-add' %}">➕ Add tag</a>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for tag in tags %}
+        <tr>
+          <td>#{{ tag.name }}</td>
+          <td>
+            <a class="btn" href="{% url 'todo:tag-update' tag.pk %}">✏️ Edit</a>
+            <a class="btn btn-danger" href="{% url 'todo:tag-delete' tag.pk %}">🗑️ Delete</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="2" class="muted">No tags yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
