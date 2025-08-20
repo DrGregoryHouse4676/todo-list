@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 
-
+app_name = "todo"
 urlpatterns = [
     path(
         "",
@@ -9,22 +9,22 @@ urlpatterns = [
         name="task-list"
     ),
     path(
-        "task/add/",
+        "tasks/add/",
         views.TaskCreateView.as_view(),
         name="task-add"
     ),
     path(
-        "task/<int:pk>/update",
+        "tasks/<int:pk>/update/",
         views.TaskUpdateView.as_view(),
         name="task-update"
     ),
     path(
-        "task/<int:pk>/delete",
+        "tasks/<int:pk>/delete/",
         views.TaskDeleteView.as_view(),
         name="task-delete"
     ),
     path(
-        "task/<int:pk>/toggle/",
+        "tasks/<int:pk>/toggle/",
         views.ToggleTaskStatusView.as_view(),
         name="task-toggle"
     ),
@@ -34,17 +34,17 @@ urlpatterns = [
         name="tag-list"
     ),
     path(
-        "tag/add/",
+        "tags/add/",
         views.TagCreateView.as_view(),
         name="tag-add"
     ),
     path(
-        "tag/<int:pk>/update",
+        "tags/<int:pk>/update/",
         views.TagUpdateView.as_view(),
         name="tag-update"
     ),
     path(
-        "tag/<int:pk>/delete",
+        "tags/<int:pk>/delete/",
         views.TagDeleteView.as_view(),
         name="tag-delete"
     ),

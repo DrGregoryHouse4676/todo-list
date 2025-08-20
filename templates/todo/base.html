@@ -12,11 +12,16 @@
     <aside class="sidebar">
       <h1>📝 Todo</h1>
       <nav class="nav">
-        <a href="/static" class="{% if request.path == '/' %}active{% endif %}">🏠 Home</a>
-        <a href="/tags/" class="{% if request.path.startswith:'/tags' %}active{% endif %}">🏷️ Tags</a>
+        {% url 'todo:task-list' as home_url %}
+        {% url 'todo:tag-list' as tags_url %}
+        {% with cur=request.resolver_match.url_name %}
+          <a href="{{ home_url }}" class="{% if cur == 'task-list' %}active{% endif %}">🏠 Home</a>
+          <a href="{{ tags_url }}" class="{% if cur in 'tag-list,tag-add,tag-update,tag-delete' %}active{% endif %}">🏷️ Tags</a>
+        {% endwith %}
       </nav>
       <p class="muted pill">Sidebar is visible on all pages.</p>
     </aside>
+
     <main class="content">
       {% block content %}{% endblock %}
     </main>
